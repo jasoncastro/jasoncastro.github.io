@@ -14,6 +14,7 @@
 	<meta property="og:title" content="jasoncastro.github.io">
 	<meta property="og:locale" content="en_US">
 	<meta name="description" content="I am a Creative Designer w/ a foundation in Web & Graphics Design, now expanding my craft into the world of Tattoo Artistry. I don’t just create visuals; I build experience that bridge the gap between digital precision and human emotion.">
+	<meta name="keywords" content="Tattoo Artist, Freelance Designer, Graphics, Website, Visual Communication Artist, Print, Ads, Advertising, Animation, AI, Photography, Multimedia, Art, Brand Identity, Business Card, Letter Head, Logo, Poster, Billboard, Banners, Icons, Caricature, Digital Painting, Illustration, 3D Modeling, Flat UI, UI/UX, Creative"/>
 	<meta property="og:description" content="I am a Creative Designer w/ a foundation in Web & Graphics Design, now expanding my craft into the world of Tattoo Artistry. I don’t just create visuals; I build experience that bridge the gap between digital precision and human emotion.">
 
 	<link rel="canonical" href="https://jasoncastro.github.io/">
@@ -26,7 +27,10 @@
 	<script type="application/ld+json">…</script>
 	<!-- End Jekyll SEO tag -->
 
-	<link rel="stylesheet" href="/assets/css/style.css?v=c1aa706ba5a2e5799a5e00ad63d3d6c8fd32b232">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link href="css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="css/flat-ui.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
 	<!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 	<!-- Setup Google Analytics -->
 	<!-- You can set your favicon here -->
@@ -38,16 +42,148 @@
   </head>
 
   <body>
-	<h1>Hello, world! Welcome to my personal website.</h1>
-	<div class="container-lg px-3 my-5 markdown-body">…</div>
+	<div id="container">
+    	<section id="contact" data-type="background" data-speed="10" class="pages">
+        	<article>
+            	<div class="row">
+                	<div class="col-md-4"></div>
+                    <div class="col-md-4">
+                    	<div id="topnav" class="btn-group">
+                           <button type="button" id="btn-contact" class="btn" onMouseDown="window.open('#contact','_self')"><span class="glyphicon glyphicon-phone-alt"></span><br />Contact</button>
+                           <button type="button" id="btn-portfolio" class="btn" onMouseDown="window.open('#portfolios','_self')"><span class="glyphicon glyphicon-search"></span><br />Portfolio</button>
+                           <button type="button" id="btn-about" class="btn" onMouseDown="window.open('#about','_self')"><span class="glyphicon glyphicon-user"></span><br />About</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                
+                <div id="contact-box">
+                    
+                    <div align="right">
+                    	<table id="contact-info" border="0" cellspacing="0" cellpadding="0">
+                        	<tr>
+                        		<td class="contact-medium">
+                                	<label>E-mail</label><br />kitti2x@gmail.com<br />jasoncastro15@gmail.com
+                                </td>
+                                <td class="contact-icon">
+                                	<span class="glyphicon glyphicon-envelope"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                        		<td class="contact-medium">
+                                	<label>ICQ</label><br />291-062-399
+                                </td>
+                                <td class="contact-icon">
+                                	<span class="glyphicon glyphicon-comment"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                        		<td class="contact-medium">
+                                	<label>Skype</label><br />jason.christopher.castro
+                                </td>
+                                <td class="contact-icon">
+                                	<span class="glyphicon glyphicon-phone-alt"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                        		<td class="contact-medium">
+                                	<label>Mobile</label><br />+63 916 2117825
+                                </td>
+                                <td class="contact-icon">
+                                	<span class="glyphicon glyphicon-phone"></span>
+                                </td>
+                            </tr>
+                    	</table>
+                    </div>
+                    
+                </div>
+            </article>
+		</section>
+        <section id="portfolios" data-type="background" data-speed="10" class="pages">
+        	<article>
+            	<h3>"There is no great idea, unless there is great execution. Some people will have the same IDEA,<br />but if you can EXECUTE, then its GREAT." - Jason Christopher Castro</h3>
+                <div class="folio-holder">
+                	<a href="http://www.linkedin.com/pub/jason-christopher-castro/7b/183/ab4" onMouseMove="document.getElementById('label-identity').style.visibility='visible'" onMouseOut="document.getElementById('label-identity').style.visibility='hidden'" target="_blank">
+                        <div align="center" id="label-identity" class="showLabel"><label>CORPORATE IDENTITY</label></div>
+                        <div id="brandkit-folio" class="cycle-slideshow thumb-folio" data-cycle-fx="tileBlind" data-cycle-timeout="6000" data-cycle-tile-count="10">                  
+                          <img src="images/brandkit-1.jpg" />
+                          <img src="images/brandkit-1-2.jpg" />
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="folio-holder">
+                	<a href="http://www.linkedin.com/pub/jason-christopher-castro/7b/183/ab4"  onMouseMove="document.getElementById('label-web').style.visibility='visible'" onMouseOut="document.getElementById('label-web').style.visibility='hidden'" target="_blank">
+                        <div align="center" id="label-web" class="showLabel"><label>WEB DESIGN</label></div>
+                        <div id="websites-folio" class="cycle-slideshow thumb-folio" data-cycle-fx="tileBlind" data-cycle-timeout="6000" data-cycle-tile-count="10">
+                          <img src="images/website-1.jpg" />
+                          <img src="images/website-1-2.jpg" />
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="folio-holder">
+                	<a href="http://www.linkedin.com/pub/jason-christopher-castro/7b/183/ab4"  onMouseMove="document.getElementById('label-print').style.visibility='visible'" onMouseOut="document.getElementById('label-print').style.visibility='hidden'" target="_blank">
+                        <div align="center" id="label-print" class="showLabel"><label>PRINT ADVERTISING</label></div>
+                        <div id="print-folio" class="cycle-slideshow thumb-folio" data-cycle-fx="tileBlind" data-cycle-timeout="6000" data-cycle-tile-count="10">
+                          <img src="images/print-1.jpg" />
+                          <img src="images/print-1-2.jpg" />
+                        </div>
+                    </a>
+                </div>
+            </article>
+		</section>
+        <section id="about" data-type="background" data-speed="10" class="pages">
+        	<article>
+<div class="profile-pic">
+                	<img src="images/thumb-jason-1.jpg">
+                </div>
+                
+                <h1>Jason Christopher J. Castro</h1>
+                
+                <p align="justify">
+                	I am a person that enjoys having many accomplishments and I want to touch people's lives. But what I've always wanted is to remain happy, and perhaps share happiness to others. This is how I want to be remembered and this is how I continue to inspire the people around me.
+				</p>
+                <h3>
+					"You can only please a client, if you know how to bake a cake."
+				</h3>
+                <p align="justify">I don't offer my outputs to please my clients, I build relationships to maintain trust and happiness. Because I believe that each client have different personalities and preferences. So once I know what they prefer, I know exactly what they need, and this is how my quality of  service remain consistent.
+                </p>
+                
+                <p align="center">
+                	<span><a href="http://www.linkedin.com/pub/jason-christopher-castro/7b/183/ab4" target="_new"><img src="images/in-icon-1.png" alt="Linkedin" width="51" height="51" border="0"></a></span>
+                    <span><a href="https://www.facebook.com/jasonchristopher.castro" target="_new"><img src="images/fb-icon-1.png" alt="Linkedin" width="51" height="51" border="0"></a></span>
+                    <span><a href="https://www.behance.net/kitti2x" target="_new"><img src="images/be-icon-1.png" alt="Linkedin" width="51" height="51" border="0"></a></span>
+                </p>
+          </article>
+		</section>
+        <section id="footer-kitti2x" data-type="background" data-speed="10" class="pages">
+        	<article>
+            	<div align="center"><a href="#contact" target="_self">Contact Info</a> | <a href="#portfolios" target="_self">Portfolio</a> | <a href="#about" target="_self">About</a></div>
+              <p id="copy-id" align="center">jasoncastro.github.io © 2026</p>
+            </article>
+		</section>
+    </div>
+    
+    <!-- JS Code -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+    
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+	<script src="js/jquery.cycle2.min.js"></script>
+    <script src="js/jquery.cycle2.tile.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous">
 
-	<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<!-- Optional JavaScript
+     jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	  
+	-->
 	<script>anchors.add();</script>
   </body>
 
