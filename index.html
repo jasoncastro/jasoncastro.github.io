@@ -74,10 +74,11 @@
             transform: translateX(-50%);
         }
 
-        .sk-logo {
-            background-image: url(../images/logo_041128-1.jpg) left/cover no-repeat;
-            width:563px;
-            height:236px;
+        a#sk-logo img {
+            display:block;
+            max-width:100%;
+            width:15.875rem;
+            height:auto;
         }
     </style>
 </head>
@@ -88,7 +89,11 @@
             <div class="px-8 py-6 flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center gap-x-3">
-                    <div class="sk-logo"></div>
+                    <div class="sk-logo">
+                        <a id="logo" href="https://jasoncastro.github.io" aria-label="link to return to home page">
+                            <img src="../images/logo_041128-1.jpg" alt="Skinkraft TV logo" width="563" height="236" loading="eager">
+                        </a>
+                    </div>
                     <!--
                     <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-cyan-400 rounded-2xl flex items-center justify-center text-white text-2xl rotate-12">
                         ✦
