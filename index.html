@@ -486,12 +486,16 @@
                 
                 <!-- Contact Form -->
                 <div class="md:col-span-7">
-                    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID_HERE" method="POST" class="grid grid-cols-2 gap-x-6 gap-y-8">
+                    <div data-fs-success></div>
+                    <div data-fs-error></div>
+                    
+                    <form id="contact-form" action="https://formspree.io/f/mqewzabw" method="POST" class="grid grid-cols-2 gap-x-6 gap-y-8">
                         <input type="text" name="name" placeholder="Your name" required
                                class="col-span-2 md:col-span-1 border border-black/20 focus:border-black rounded-2xl px-6 h-14 text-lg">
                         
                         <input type="email" name="email" placeholder="Your email" required
                                class="col-span-2 md:col-span-1 border border-black/20 focus:border-black rounded-2xl px-6 h-14 text-lg">
+                            <span data-fs-error="message"></span>
                         
                         <input type="tel" name="phone" placeholder="Phone / WhatsApp" 
                                class="col-span-2 md:col-span-1 border border-black/20 focus:border-black rounded-2xl px-6 h-14 text-lg">
@@ -527,7 +531,7 @@
             <div class="flex gap-x-6 mt-6 md:mt-0">
                 <a href="#" class="hover:text-[#ff2a6d]">Privacy</a>
                 <a href="#" class="hover:text-[#ff2a6d]">Terms</a>
-                <a href="https://instagram.com/skinkrafttv" target="_blank" class="hover:text-[#ff2a6d]">Instagram</a>
+                <a href="https://instagram.com/jasoncastro15" target="_blank" class="hover:text-[#ff2a6d]">Instagram</a>
             </div>
             <div class="mt-6 md:mt-0 text-white/30">Built as your efficient idea-to-impact agent</div>
         </div>
