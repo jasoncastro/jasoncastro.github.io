@@ -517,4 +517,158 @@
                     </form>
                 </div>
             </div>
-        </
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black text-white py-12">
+        <div class="max-w-screen-2xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center text-sm">
+            <div>© 2026 Skinkraft TV • All Rights Reserved</div>
+            <div class="flex gap-x-6 mt-6 md:mt-0">
+                <a href="#" class="hover:text-[#ff2a6d]">Privacy</a>
+                <a href="#" class="hover:text-[#ff2a6d]">Terms</a>
+                <a href="https://instagram.com/skinkrafttv" target="_blank" class="hover:text-[#ff2a6d]">Instagram</a>
+            </div>
+            <div class="mt-6 md:mt-0 text-white/30">Built as your efficient idea-to-impact agent</div>
+        </div>
+    </footer>
+
+    <script>
+        // Portfolio data
+        const portfolioItems = [
+            {
+                id: 1,
+                category: "tattoo",
+                title: "Phoenix Rebirth Sleeve",
+                desc: "Full storytelling video included. Client’s journey of resilience.",
+                img: "https://picsum.photos/id/1015/800/800",
+                type: "Tattoo"
+            },
+            {
+                id: 2,
+                category: "design",
+                title: "E-commerce Website Redesign",
+                desc: "Increased client’s conversion rate by 340% in first month.",
+                img: "https://picsum.photos/id/201/800/800",
+                type: "Web Design"
+            },
+            {
+                id: 3,
+                category: "tattoo",
+                title: "Minimalist Family Crest",
+                desc: "First tattoo ever + 4-minute cinematic memory video.",
+                img: "https://picsum.photos/id/1005/800/800",
+                type: "Tattoo"
+            },
+            {
+                id: 4,
+                category: "design",
+                title: "Complete Brand Identity",
+                desc: "Logo, packaging, social assets — all driving immediate sales.",
+                img: "https://picsum.photos/id/870/800/800",
+                type: "Branding"
+            },
+            {
+                id: 5,
+                category: "tattoo",
+                title: "Travel Memory Map Tattoo",
+                desc: "Every country represented. 8-minute video of the full session.",
+                img: "https://picsum.photos/id/133/800/800",
+                type: "Tattoo"
+            },
+            {
+                id: 6,
+                category: "design",
+                title: "Landing Page for Tech Startup",
+                desc: "Secured $2.4M in seed funding within weeks of launch.",
+                img: "https://picsum.photos/id/1009/800/800",
+                type: "Web Design"
+            }
+        ]
+        
+        function renderPortfolio(filteredItems) {
+            const container = document.getElementById('portfolio-grid')
+            container.innerHTML = ''
+            
+            filteredItems.forEach(item => {
+                const card = document.createElement('div')
+                card.className = `portfolio-card bg-white/10 border border-white/10 rounded-3xl overflow-hidden`
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${item.img}" alt="${item.title}" class="w-full aspect-square object-cover">
+                        <div class="absolute top-4 left-4 bg-black/80 text-white text-xs px-4 py-1 rounded-3xl">${item.type}</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-semibold text-xl">${item.title}</h4>
+                        <p class="text-white/70 mt-2 text-sm">${item.desc}</p>
+                    </div>
+                `
+                container.appendChild(card)
+            })
+            
+            if (filteredItems.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-center py-12 text-white/40">No works in this category yet. Check back soon!</p>`
+            }
+        }
+        
+        window.filterPortfolio = function(category) {
+            document.querySelectorAll('#portfolio-grid ~ div button').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-black', 'active-filter')
+            })
+            
+            if (category === 'all') {
+                document.getElementById('filter-all').classList.add('bg-white', 'text-black', 'active-filter')
+            } else if (category === 'tattoo') {
+                document.getElementById('filter-tattoo').classList.add('bg-white', 'text-black', 'active-filter')
+            } else {
+                document.getElementById('filter-design').classList.add('bg-white', 'text-black', 'active-filter')
+            }
+            
+            const filtered = category === 'all' 
+                ? portfolioItems 
+                : portfolioItems.filter(item => item.category === category)
+            
+            renderPortfolio(filtered)
+        }
+        
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobile-menu')
+            const icon = document.getElementById('mobile-icon')
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden')
+                icon.classList.replace('fa-bars', 'fa-xmark')
+            } else {
+                menu.classList.add('hidden')
+                icon.classList.replace('fa-xmark', 'fa-bars')
+            }
+        }
+        
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            setTimeout(() => {
+                const form = this
+                const originalText = form.querySelector('button').innerHTML
+                
+                form.querySelector('button').innerHTML = `
+                    <span class="flex items-center justify-center gap-x-2">
+                        <i class="fa-solid fa-check-circle"></i>
+                        MESSAGE SENT!
+                    </span>
+                `
+                form.reset()
+                
+                setTimeout(() => {
+                    form.querySelector('button').innerHTML = originalText
+                }, 4000)
+            }, 800)
+        })
+        
+        function init() {
+            renderPortfolio(portfolioItems)
+            console.log('%c✅ Skinkraft TV website ready! Replace placeholder images, videos, social links, email, phone, and Formspree ID with your real information.', 'color:#ff2a6d; font-size:13px')
+        }
+        
+        window.onload = init
+    </script>
+</body>
+</html>
