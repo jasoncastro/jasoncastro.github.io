@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Draft → Proof — Social Copy Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#19241f;
+    --ink-soft:#2c3a32;
+    --paper:#efe7d3;
+    --paper-card:#f7f1e2;
+    --pen:#b8472f;
+    --pen-dark:#8f3623;
+    --gold:#c79a3c;
+    --line: rgba(25,36,31,0.18);
+    --text-on-ink:#f3ead2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(199,154,60,0.08), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(184,71,47,0.10), transparent 50%);
+    color:var(--text-on-ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+    padding:48px 24px 80px;
+  }
+  .wrap{max-width:980px;margin:0 auto;}
+
+  header.masthead{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-bottom:2px solid var(--gold);
+    padding-bottom:18px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .masthead-title{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(28px, 4vw, 44px);
+    letter-spacing:-0.01em;
+    margin:0;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .masthead-title .arrow{color:var(--pen); font-weight:400;}
+  .masthead-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    opacity:0.9;
+  }
+  .sub{
+    font-size:14.5px;
+    color:rgba(243,234,210,0.65);
+    margin:6px 0 36px;
+    max-width:560px;
+    line-height:1.5;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:28px;
+  }
+  @media(min-width: 880px){
+    .grid{grid-template-columns: 380px 1fr; align-items:start;}
+  }
+
+  .card{
+    background:var(--paper-card);
+    color:var(--ink);
+    border-radius:3px;
+    padding:26px 26px 28px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.04) inset;
+    position:relative;
+  }
+  .card::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:3px;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, var(--line) 28px);
+    opacity:0.5;
+    pointer-events:none;
+  }
+  .form-card{position:sticky; top:24px;}
+
+  label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    margin-top:18px;
+  }
+  label:first-of-type{margin-top:0;}
+
+  input[type=text], select, textarea{
+    width:100%;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    background:rgba(255,255,255,0.55);
+    border:1px solid rgba(25,36,31,0.35);
+    border-radius:2px;
+    padding:10px 12px;
+    outline:none;
+    transition:border-color 0.15s, background 0.15s;
+    position:relative;
+  }
+  input[type=text]:focus, select:focus, textarea:focus{
+    border-color:var(--pen);
+    background:#fff;
+    box-shadow:0 0 0 3px rgba(184,71,47,0.15);
+  }
+  textarea{
+    min-height:170px;
+    resize:vertical;
+    line-height:1.5;
+  }
+  select{appearance:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0 L5 6 L10 0 Z' fill='%2319241f'/></svg>"); background-repeat:no-repeat; background-position:right 12px center; padding-right:30px;}
+
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+
+  button#generate{
+    margin-top:24px;
+    width:100%;
+    background:var(--pen);
+    color:#fdf6e8;
+    border:none;
+    border-radius:2px;
+    padding:14px 18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    cursor:pointer;
+    position:relative;
+    transition:transform 0.08s, background 0.15s;
+  }
+  button#generate:hover{background:var(--pen-dark);}
+  button#generate:active{transform:translateY(1px);}
+  button#generate:disabled{opacity:0.55; cursor:wait;}
+
+  .stamp-corner{
+    position:absolute; top:-10px; right:-10px;
+    width:34px;height:34px;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--paper-card);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    color:var(--gold);
+    transform:rotate(-12deg);
+    letter-spacing:0.05em;
+  }
+
+  /* Output / proof sheet */
+  .proof{
+    background:var(--paper);
+    border-radius:3px;
+    min-height:420px;
+    padding:8px;
+    position:relative;
+  }
+  .proof-inner{
+    background:var(--paper-card);
+    border:1px solid rgba(25,36,31,0.15);
+    border-radius:2px;
+    padding:30px 32px;
+    color:var(--ink);
+    min-height:404px;
+    position:relative;
+  }
+  .crop{
+    position:absolute; width:14px; height:14px;
+    border-top:1.5px solid var(--ink); border-left:1.5px solid var(--ink);
+    opacity:0.45;
+  }
+  .crop.tl{top:6px;left:6px;}
+  .crop.tr{top:6px;right:6px; transform:rotate(90deg);}
+  .crop.bl{bottom:6px;left:6px; transform:rotate(-90deg);}
+  .crop.br{bottom:6px;right:6px; transform:rotate(180deg);}
+
+  .empty-state{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    height:360px;
+    color:rgba(25,36,31,0.45);
+    gap:10px;
+  }
+  .empty-state .mark{
+    font-family:'Fraunces', serif;
+    font-size:48px;
+    color:var(--pen);
+    opacity:0.55;
+    transform:rotate(-6deg);
+  }
+  .empty-state p{margin:0; font-size:14px; max-width:300px; line-height:1.5;}
+
+  .proof-section{margin-bottom:26px;}
+  .proof-section:last-child{margin-bottom:0;}
+  .proof-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--pen);
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .proof-label::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:repeating-linear-gradient(to right, var(--pen) 0, var(--pen) 4px, transparent 4px, transparent 8px);
+    opacity:0.5;
+  }
+  .titles-list{margin:0; padding-left:0; list-style:none;}
+  .titles-list li{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    line-height:1.4;
+    padding:8px 0 8px 30px;
+    position:relative;
+    border-bottom:1px dashed rgba(25,36,31,0.18);
+  }
+  .titles-list li:last-child{border-bottom:none;}
+  .titles-list li::before{
+    content: counter(li) ".";
+    counter-increment: li;
+    position:absolute; left:0; top:9px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--gold);
+  }
+  .titles-list{counter-reset: li;}
+
+  .caption-text{
+    font-size:15.5px;
+    line-height:1.7;
+    white-space:pre-wrap;
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+
+  .hashtags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+  }
+  .hashtags span{
+    background:rgba(184,71,47,0.08);
+    border:1px solid rgba(184,71,47,0.35);
+    color:var(--pen-dark);
+    padding:4px 9px;
+    border-radius:2px;
+  }
+
+  .copy-btn{
+    margin-top:18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    background:none;
+    border:1px solid rgba(25,36,31,0.4);
+    color:var(--ink);
+    padding:8px 14px;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .copy-btn:hover{background:rgba(25,36,31,0.06);}
+
+  .section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .section-head .proof-label{margin-bottom:0; flex:1;}
+  .copy-mini{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    background:none;
+    border:1px solid rgba(25,36,31,0.3);
+    color:var(--ink-soft);
+    padding:4px 9px;
+    border-radius:2px;
+    cursor:pointer;
+    white-space:nowrap;
+    flex-shrink:0;
+    transition:background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .copy-mini:hover{background:rgba(184,71,47,0.1); border-color:var(--pen); color:var(--pen-dark);}
+  .copy-mini.copied{background:var(--pen); border-color:var(--pen); color:#fdf6e8;}
+
+  /* Trend Watch panel */
+  .trends-card{
+    background:var(--paper-card);
+    border-radius:3px;
+    padding:26px 28px 28px;
+    margin-top:28px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+    display:none;
+  }
+  .trends-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:4px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .trends-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:21px;
+    color:var(--ink);
+    margin:0;
+  }
+  .trends-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--pen);
+    opacity:0.85;
+  }
+  .trends-note{
+    font-size:13px;
+    color:rgba(25,36,31,0.55);
+    margin:6px 0 18px;
+    max-width:520px;
+    line-height:1.5;
+  }
+  .trend-list{margin:0; padding:0; list-style:none; counter-reset: tr;}
+  .trend-item{
+    counter-increment: tr;
+    display:grid;
+    grid-template-columns: 32px 1fr;
+    gap:14px;
+    padding:13px 0;
+    border-bottom:1px dashed rgba(25,36,31,0.18);
+  }
+  .trend-item:last-child{border-bottom:none;}
+  .trend-num{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    color:var(--gold);
+    line-height:1;
+  }
+  .trend-num::before{content: counter(tr);}
+  .trend-title{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--ink);
+    margin:0 0 3px;
+  }
+  .trend-note{
+    font-size:13.5px;
+    color:rgba(25,36,31,0.7);
+    line-height:1.5;
+    margin:0;
+  }
+  .trends-loading{
+    font-size:13.5px;
+    color:rgba(25,36,31,0.5);
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .error-msg{
+    color:var(--pen-dark);
+    background:rgba(184,71,47,0.08);
+    border:1px solid rgba(184,71,47,0.3);
+    padding:12px 14px;
+    border-radius:2px;
+    font-size:13.5px;
+    margin-top:14px;
+  }
+
+  .spinner{
+    display:inline-block;
+    width:13px;height:13px;
+    border:2px solid rgba(253,246,232,0.4);
+    border-top-color:#fdf6e8;
+    border-radius:50%;
+    animation:spin 0.7s linear infinite;
+    margin-right:8px;
+    vertical-align:-2px;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  @media (prefers-reduced-motion: reduce){
+    .spinner{animation:none;}
+    button#generate, .copy-btn{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1 class="masthead-title">Draft<span class="arrow">→</span>Proof</h1>
+    <span class="masthead-tag">Social Copy Studio</span>
+  </header>
+  <p class="sub">Hand in a rough draft. Get back a platform-tuned, SEO-sharp caption with titles and hashtags — written like someone who actually knows the niche.</p>
+
+  <div class="grid">
+    <div class="card form-card">
+      <div class="stamp-corner">v1</div>
+
+      <label for="niche">Business Niche</label>
+      <input type="text" id="niche" placeholder="e.g. Fine-line tattoo studio, custom furniture maker, floral design">
+
+      <div class="row2">
+        <div>
+          <label for="platform">Platform</label>
+          <select id="platform">
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="TikTok">TikTok</option>
+            <option value="YouTube">YouTube</option>
+          </select>
+        </div>
+        <div>
+          <label for="contentType">Content Type</label>
+          <select id="contentType">
+            <option value="Image">Image</option>
+            <option value="Short Video (Reels/TikTok/Shorts)">Short Video</option>
+            <option value="Long Video (YouTube/Facebook Watch)">Long Video</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="draft">Raw Draft</label>
+      <textarea id="draft" placeholder="Paste your rough notes, voice-to-text ramble, or bullet points here..."></textarea>
+
+      <button id="generate" onclick="generateCopy()">Generate</button>
+    </div>
+
+    <div class="proof">
+      <div class="proof-inner" id="proofInner">
+        <div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div>
+        <div class="empty-state" id="emptyState">
+          <div class="mark">✎</div>
+          <p>Your polished titles, caption, and hashtags will be proofed here once you fill in the form and tap Generate.</p>
+        </div>
+        <div id="results" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trends-card" id="trendsCard">
+    <div class="trends-head">
+      <h2 class="trends-title">Trend Watch</h2>
+      <span class="trends-sub">Inspiration for what's next</span>
+    </div>
+    <p class="trends-note">The 5 latest trends moving through your niche right now — pulled live, not memorized. Use them to seed your next post or project.</p>
+    <div id="trendsBody"><p class="trends-loading">Scanning the wires...</p></div>
+  </div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are an elite Social Media Manager and SEO Copywriter specializing in visual arts, design, and small local businesses. Your job is to take the user's raw, unpolished text draft and transform it into a highly engaging, SEO-optimized masterpiece.
+
+You must adapt the final output based on the Target Platform, Content Type, and the specific Business Niche, while staying true to the core message of the user's original draft.
+
+### ADAPTATION RULES:
+**1. Tone & Authenticity (Crucial for Creators/Small Businesses):**
+*   Do not sound like a corporate robot. The tone should be authentic, passionate, and professional. 
+*   Elevate the vocabulary to sound authoritative in their niche (e.g., using proper art, design, or business terminology).
+**2. By Content Type:**
+*   **Image:** Focus on visual storytelling. Expand on the user's draft by describing the "vibe" or effort behind the work. End with a strong Call-to-Action (CTA) driving bookings, DMs, or inquiries.
+*   **Short Video (Reels/TikTok/Shorts):** Strip the fluff. The first line must be a massive hook. Use the user's draft to create a punchy, fast-paced caption that keeps people watching.
+*   **Long Video (YouTube/Facebook Watch):** Expand the user's draft into a rich, SEO-heavy description. Include a structured overview, searchable keywords, and natural spaces for timestamps or portfolio links.
+**3. By Target Platform:**
+*   **Facebook:** Conversational and community-driven. Focus on building trust with local clients.
+*   **Instagram:** Aesthetic and highly visual. Use strategic line breaks, relevant emojis, and focus heavily on aesthetics and lifestyle.
+*   **TikTok:** Raw, trendy, and native. Very conversational, focusing on the "behind-the-scenes" or the process.
+*   **YouTube:** Highly structured. The first two lines must summarize the user's draft perfectly before the "Show More" fold.
+### OUTPUT FORMAT:
+Return ONLY the following elements, and respond ONLY with a valid JSON object (no markdown fences, no preamble) with exactly these keys:
+{
+  "titles": ["title1", "title2", "title3"],
+  "caption": "the full polished caption/description as a single string with real line breaks",
+  "hashtags": ["#tag1", "#tag2", ...]
+}
+Provide 3 titles. Provide 10-15 hashtags mixing broad industry tags, niche-specific tags, and placeholders for local tags like #[City]Tattoo or #[City]Business.`;
+
+async function generateCopy(){
+  const niche = document.getElementById('niche').value.trim();
+  const platform = document.getElementById('platform').value;
+  const contentType = document.getElementById('contentType').value;
+  const draft = document.getElementById('draft').value.trim();
+
+  const btn = document.getElementById('generate');
+  const emptyState = document.getElementById('emptyState');
+  const results = document.getElementById('results');
+
+  if(!draft){
+    showError("Add a raw draft before generating — even a messy one.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Proofing...';
+  emptyState.style.display = 'none';
+  results.style.display = 'block';
+  results.innerHTML = '<p style="color:rgba(25,36,31,0.5); font-size:14px;">Marking up your draft...</p>';
+
+  const userMessage = `Business Niche: ${niche || "Not specified"}
+Target Platform: ${platform}
+Content Type: ${contentType}
+
+Raw Draft:
+"""
+${draft}
+"""`;
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [
+          { role: "user", content: userMessage }
+        ]
+      })
+    });
+
+    if(!response.ok){
+      throw new Error("Request failed with status " + response.status);
+    }
+
+    const data = await response.json();
+    const text = data.content.map(b => b.text || "").join("\n").trim();
+    const clean = text.replace(/^```json\s*/i, "").replace(/^```\s*/,"").replace(/```$/,"").trim();
+
+    let parsed;
+    try{
+      parsed = JSON.parse(clean);
+    }catch(e){
+      throw new Error("Could not read the response format.");
+    }
+
+    renderResults(parsed);
+    fetchTrends(niche);
+
+  }catch(err){
+    console.error(err);
+    showError("Something went wrong generating your copy. Please try again.");
+    emptyState.style.display = 'flex';
+    results.style.display = 'none';
+  }finally{
+    btn.disabled = false;
+    btn.innerHTML = 'Generate';
+  }
+}
+
+let lastResult = null;
+
+function renderResults(parsed){
+  const results = document.getElementById('results');
+  const titles = Array.isArray(parsed.titles) ? parsed.titles : [];
+  const caption = parsed.caption || "";
+  const hashtags = Array.isArray(parsed.hashtags) ? parsed.hashtags : [];
+  lastResult = { titles, caption, hashtags };
+
+  results.innerHTML = `
+    <div class="proof-section">
+      <div class="section-head">
+        <div class="proof-label">Optimized Titles</div>
+        <button class="copy-mini" onclick="copySection('titles', this)">Copy</button>
+      </div>
+      <ol class="titles-list">
+        ${titles.map(t => `<li>${escapeHtml(t)}</li>`).join('')}
+      </ol>
+    </div>
+    <div class="proof-section">
+      <div class="section-head">
+        <div class="proof-label">Polished Caption / Description</div>
+        <button class="copy-mini" onclick="copySection('caption', this)">Copy</button>
+      </div>
+      <div class="caption-text">${escapeHtml(caption)}</div>
+    </div>
+    <div class="proof-section">
+      <div class="section-head">
+        <div class="proof-label">Trending &amp; Local SEO Hashtags</div>
+        <button class="copy-mini" onclick="copySection('hashtags', this)">Copy</button>
+      </div>
+      <div class="hashtags">
+        ${hashtags.map(h => `<span>${escapeHtml(h)}</span>`).join('')}
+      </div>
+    </div>
+    <button class="copy-btn" onclick="copySection('all', this)">Copy full proof</button>
+  `;
+}
+
+function copySection(type, btnEl){
+  if(!lastResult) return;
+  let text = "";
+  if(type === 'titles') text = lastResult.titles.join('\n');
+  else if(type === 'caption') text = lastResult.caption;
+  else if(type === 'hashtags') text = lastResult.hashtags.join(' ');
+  else text = `${lastResult.titles.join('\n')}\n\n${lastResult.caption}\n\n${lastResult.hashtags.join(' ')}`;
+
+  navigator.clipboard.writeText(text).then(()=>{
+    if(!btnEl) return;
+    const old = btnEl.textContent;
+    btnEl.textContent = 'Copied';
+    btnEl.classList.add('copied');
+    setTimeout(()=>{ btnEl.textContent = old; btnEl.classList.remove('copied'); }, 1400);
+  });
+}
+
+function showError(msg){
+  const results = document.getElementById('results');
+  results.style.display = 'block';
+  results.innerHTML = `<div class="error-msg">${escapeHtml(msg)}</div>`;
+}
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/\n/g,'<br>');
+}
+
+async function fetchTrends(niche){
+  const trendsCard = document.getElementById('trendsCard');
+  const trendsBody = document.getElementById('trendsBody');
+  trendsCard.style.display = 'block';
+  trendsBody.innerHTML = '<p class="trends-loading">Scanning the wires...</p>';
+
+  const nicheLabel = niche || "small creative and visual-arts businesses";
+  const prompt = `Find the 5 latest social media and marketing trends right now that are relevant to this business niche: "${nicheLabel}". For each one, give a short punchy title (max 6 words) and one sentence on how a small business or creator in this niche could use it for inspiration on their next post or project. Respond ONLY with a valid JSON object, no markdown fences, no preamble, in exactly this format: {"trends":[{"title":"...","note":"..."},{"title":"...","note":"..."},{"title":"...","note":"..."},{"title":"...","note":"..."},{"title":"...","note":"..."}]}`;
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [
+          { role: "user", content: prompt }
+        ],
+        tools: [
+          { type: "web_search_20250305", name: "web_search" }
+        ]
+      })
+    });
+
+    if(!response.ok){
+      throw new Error("Request failed with status " + response.status);
+    }
+
+    const data = await response.json();
+    const text = data.content
+      .map(item => (item.type === "text" ? item.text : ""))
+      .filter(Boolean)
+      .join("\n")
+      .trim();
+    const clean = text.replace(/^```json\s*/i, "").replace(/^```\s*/,"").replace(/```$/,"").trim();
+
+    const parsed = JSON.parse(clean);
+    const trends = Array.isArray(parsed.trends) ? parsed.trends.slice(0,5) : [];
+
+    if(trends.length === 0){
+      trendsBody.innerHTML = '<p class="trends-loading">No clear trends surfaced this time — try again in a bit.</p>';
+      return;
+    }
+
+    trendsBody.innerHTML = `
+      <ol class="trend-list">
+        ${trends.map(t => `
+          <li class="trend-item">
+            <span class="trend-num"></span>
+            <div>
+              <p class="trend-title">${escapeHtml(t.title || "")}</p>
+              <p class="trend-note">${escapeHtml(t.note || "")}</p>
+            </div>
+          </li>
+        `).join('')}
+      </ol>
+    `;
+
+  }catch(err){
+    console.error(err);
+    trendsBody.innerHTML = '<p class="trends-loading">Could not pull trends right now. Please try generating again.</p>';
+  }
+}
+</script>
+</body>
+</html>
